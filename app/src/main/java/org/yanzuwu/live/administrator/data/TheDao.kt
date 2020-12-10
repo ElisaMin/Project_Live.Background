@@ -43,4 +43,5 @@ class TheDao {
         PersonalManager,
     }
     fun checkPhoneOnLogged(phone:String?):UserType = phone?.let { UserType.TaskWorker } ?: UserType.NOT_ARROW
+    fun getUserNameByID(id:Int) = "刘大奔"
 }
