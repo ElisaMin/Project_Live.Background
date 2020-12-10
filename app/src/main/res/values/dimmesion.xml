@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="标题到顶距离">129dp</dimen>
+    <dimen name="标题字体大小">32dp</dimen>
+    <dimen name="标准字体大小">16sp</dimen>
+    <dimen name="通用分隔大小">8dp</dimen>
+</resources>
