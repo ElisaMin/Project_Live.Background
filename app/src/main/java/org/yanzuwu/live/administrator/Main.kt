@@ -32,13 +32,22 @@ class Main : AppCompatActivity() {
     companion object {
         const val TAG = "Main"
         val Fragment.mainActivity:Main get() = requireActivity() as Main
+        val Fragment.sharedViewModel:SharedViewModel get() = mainActivity.sharedViewModel
         const val KEY_PHONE = "key1"
     }
     @Inject lateinit var dao:TheDao
     val sharedViewModel by viewModels<SharedViewModel>()
-    val defaultPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
-    suspend fun updateType(phone:String?=defaultPreferences.getString(KEY_PHONE,null)) {
-        sharedViewModel.type.emit(dao.checkPhoneOnLogged(phone))
+    private val defaultPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+
+    /**
+     * Check phone
+     *
+     * @param phone 不输入时从手机内部获取
+     * @return 当服务器内验证该手机可登入返回true 否则false
+     */
+    suspend fun checkPhone(phone:String?=defaultPreferences.getString(KEY_PHONE,null)):Boolean {
+        sharedViewModel.phone = phone
+        return withContext(IO){sharedViewModel.type.value != TheDao.UserType.NOT_ARROW}
     }
     fun savePhone(phone: String?) = lifecycleScope.launch(IO) {
         defaultPreferences.edit(commit = true) {
@@ -56,7 +65,6 @@ class Main : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.main)
     }
 }

@@ -22,27 +22,51 @@ import org.yanzuwu.live.administrator.Main.Companion.TAG
 import org.yanzuwu.live.administrator.Main.Companion.mainActivity
 import org.yanzuwu.live.administrator.R
 import org.yanzuwu.live.administrator.data.TheDao
+import org.yanzuwu.live.administrator.databinding.HomeFragmentBinding
 import org.yanzuwu.live.administrator.databinding.LoginFragmentBinding
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
-    private var _binding:LoginFragmentBinding? = null
-    private val binding get() = _binding!!
+class LoginFragment : Fragment(R.layout.login_fragment) {
+    private val binding:LoginFragmentBinding by lazy { LoginFragmentBinding.bind(requireView()) }
     private val viewModel: LoginViewModel by viewModels()
     @Inject lateinit var dao: TheDao
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = DataBindingUtil.inflate(layoutInflater,R.layout.login_fragment,container,false)
-        return binding.root
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.i(TAG, "onViewCreated: called")
-        _binding?.run {
+        binding.run {
             this.viewModel = this@LoginFragment.viewModel
             lifecycleOwner = this@LoginFragment
+        }
+        lifecycleScope.launch{
+            if (!mainActivity.checkPhone()) viewModel._status.collect { status ->
+                Log.i(TAG, "onViewCreated: ${status.javaClass.name}")    
+            when (status) {
+                LoginViewModel.Status.Initialized -> {
+                    viewModel.initCallback()
+                }
+                LoginViewModel.Status.SendingMessage,
+                LoginViewModel.Status.PersonnelExist -> {
+                    delay(500)
+                    mainActivity.sendCode()
+                }
+                LoginViewModel.Status.JumpingToHome->{
+                    mainActivity.sharedViewModel.phone = viewModel.phone
+                    mainActivity.savePhone(viewModel.phone)
+                    jumping()
+                }
+                else -> Log.i(TAG, "onViewCreated: $status")
+            } } else {
+                jumping()
+            }
+        }
+    }
+
+    private fun jumping() {
+        findNavController().run {
+            navigateUp()
+            navigate(R.id.launchHome)
         }
     }
 

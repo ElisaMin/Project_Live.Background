@@ -56,7 +56,7 @@ class TheDao {
      * 通过ID获取该用户的名字
      * @param id
      */
-    suspend fun getUserNameByID(id:Int) = "刘大奔"
+    suspend fun getUserNameByID(id:String) = "刘大奔"
 
     companion object {
         val code = Random.nextInt(9999)
