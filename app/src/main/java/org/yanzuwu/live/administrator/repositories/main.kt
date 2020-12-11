@@ -22,7 +22,7 @@ object Repository {
      *
      * 假Dao实例
      */
-    private val dao by lazy { TheDao() }
+    val dao by lazy { TheDao() }
     @Provides
     fun provideDao(): TheDao = dao
 }

@@ -18,7 +18,7 @@
         <ProgressBar
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:indeterminate="true"
-            app:isShowing="@{viewModel.isShowingProgressBar}"
+            app:isShowing="@{viewModel.isShowingProgressBar|!viewModel.isVisible}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,6 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            isShowing="@{viewModel.isVisible}"
             android:enabled="@{!viewModel.isShowingProgressBar}"
             android:id="@+id/username_login_text"
             android:text="@{viewModel.username}"
@@ -43,6 +44,7 @@
 
 
         <ImageView
+            isShowing="@{viewModel.isVisible}"
             android:id="@+id/icon_dosnet_metter"
             android:layout_width="129dp"
             android:layout_height="129dp"
@@ -56,6 +58,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_login_lyt"
+            isShowing="@{viewModel.isVisible}"
             android:enabled="@{!viewModel.isShowingProgressBar}"
             android:hint="@{viewModel.hint}"
             app:mutableEndIconDrawable="@{viewModel.endIconDrawable}"
