@@ -18,5 +18,10 @@
         android:id="@+id/homeFragment"
         android:name="org.yanzuwu.live.administrator.ui.homes.HomeFragment"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_task_sub_nav"
+            app:destination="@id/task_sub_nav" />
+    </fragment>
+    <include app:graph="@navigation/task_sub_nav" />
 </navigation>

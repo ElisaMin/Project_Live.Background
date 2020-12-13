@@ -18,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -25,6 +26,7 @@ import org.yanzuwu.live.administrator.Main.Companion.mainActivity
 import org.yanzuwu.live.administrator.data.SharedViewModel
 import org.yanzuwu.live.administrator.data.TheDao
 import org.yanzuwu.live.administrator.utils.dialog
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -54,6 +56,11 @@ class Main : AppCompatActivity() {
             putString(KEY_PHONE,phone)
         }
     }
+
+    /**
+     * Send code
+     *
+     */
     fun sendCode() {
         lifecycleScope.launch(Main) {
             dialog(

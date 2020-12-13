@@ -90,8 +90,10 @@ class LoginViewModel : ViewModel() {
 
 
     private var isDealWithSendVerifyCode = false
+
     var phone: String? = null
     private lateinit var userType: TheDao.UserType
+
     private var realUsername:String? = null
     private suspend fun getRealUsername():String? {
         return if (realUsername==null)
@@ -100,6 +102,7 @@ class LoginViewModel : ViewModel() {
             }
         else realUsername
     }
+
     private val inputObserver by lazy {
         Observer <String> { checkingLength {
             viewModelScope.launch {

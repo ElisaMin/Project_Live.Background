@@ -35,10 +35,11 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.i(TAG, "onViewCreated: called")
+        //设置Binding的lifecycleOwner和ViewModel
         binding.run {
             this.viewModel = this@LoginFragment.viewModel
             lifecycleOwner = this@LoginFragment
-        }
+        }//设置
         lifecycleScope.launch{
             if (!mainActivity.checkPhone()) viewModel._status.collect { status ->
                 Log.i(TAG, "onViewCreated: ${status.javaClass.name}")    
@@ -68,6 +69,11 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
             navigateUp()
             navigate(R.id.launchHome)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG, "onDestroy: Login")
     }
 
 }

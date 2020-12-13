@@ -1,5 +1,19 @@
 package org.yanzuwu.live.administrator.data
 
+import android.util.Log
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
+import org.yanzuwu.live.administrator.Main.Companion.TAG
+import org.yanzuwu.live.administrator.data.beans.Result
+import org.yanzuwu.live.administrator.data.beans.Task
+import java.lang.Runnable
+import java.lang.reflect.Executable
+import java.util.concurrent.Executor
 import kotlin.random.Random
 
 
@@ -10,7 +24,24 @@ import kotlin.random.Random
  *
  * @constructor Create empty The dao
  */
-class TheDao {
+
+class TheDao : LifecycleObserver{
+
+
+    val dao get() =  _dao!!
+    private var _dao: CoroutineDispatcher? =null
+
+
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun init() {
+        _dao = Executor {  }.asCoroutineDispatcher()
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun clean() {
+        _dao = null
+    }
 
     enum class UserType {
         /**
@@ -45,6 +76,8 @@ class TheDao {
         PersonalManager,
     }
 
+//    var id:String?=null
+
     /**
      * 检查是否为员工
      * @param phone 手机号码
@@ -71,4 +104,19 @@ class TheDao {
      * 发送验证码
      */
     private fun sendCode() = Unit
+
+    val tasks by lazy {
+        MutableStateFlow(Task())
+    }
+    private var lastTaskTimeThePoint:Long= 0
+    private var taskPointForID= 0
+    suspend fun getTaskByID(id : String) {
+        repeat(9) {
+            delay(100*Random.nextInt(10).toLong())
+            Log.i(TAG, "getTaskByID: called and $it")
+            tasks.emit(Task(
+                    id=taskPointForID++,
+            ).also { lastTaskTimeThePoint = it.generateTime })
+        }
+    }
 }
