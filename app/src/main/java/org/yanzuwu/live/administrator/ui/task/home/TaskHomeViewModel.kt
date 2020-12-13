@@ -15,20 +15,15 @@ import org.yanzuwu.live.administrator.utils.FlowAdapter
 
 class TaskHomeViewModel() : ViewModel() {
 
-    class ViewHolder(binding:TaskItemBinding):FlowAdapter.ViewHolder<Task,TaskItemBinding>(binding) {
-        override fun bind(item : Task) {
-            binding.task = item
-            Log.i(TAG, "bind: $item")
-        }
-    }
 
-    val adapter = object : FlowAdapter<Task,TaskItemBinding,ViewHolder>(
+
+    val adapter =FlowAdapter<Task,TaskItemBinding>(
             flow = dao.tasks,
-            getScope = {viewModelScope},
-            areContentTheSame = {old, new -> false },
-            areItemTheSame = {old, new -> false }
-    ) { override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : TaskHomeViewModel.ViewHolder
-            = TaskHomeViewModel.ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.task_item,parent,false)) }
+            scope = viewModelScope,
+            onBind = {task -> this.task = task },
+            layout = {R.layout.task_item},
+            filter = lambda@{ return@lambda it.id!=null}
+    )
 
 
 }

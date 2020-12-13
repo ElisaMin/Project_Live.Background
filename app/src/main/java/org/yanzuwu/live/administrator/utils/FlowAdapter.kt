@@ -1,60 +1,47 @@
 package org.yanzuwu.live.administrator.utils
 
-import android.util.Log
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.asLiveData
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.*
-import org.yanzuwu.live.administrator.Main.Companion.TAG
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
+import org.yanzuwu.live.administrator.data.beans.Task
 
-abstract class FlowAdapter<T,B:ViewDataBinding,VH:FlowAdapter.ViewHolder<T,B>>(
-        private val flow : Flow<T>,
-        private inline val getScope:() -> CoroutineScope,
-        areItemTheSame:(old:T,new:T) -> Boolean,
-        areContentTheSame:(old:T,new:T) -> Boolean
-): RecyclerView.Adapter<VH>(), LifecycleObserver {
+open class FlowAdapter <T,B:ViewDataBinding> constructor(
+        val flow:Flow<T>,
+        val layout:FlowAdapter<T,B>.() -> Int,
+        val onBind:B.(T)->Unit,
+        val scope : CoroutineScope,
+        inline  val  filter: ((T)->Boolean) = {true}
+):RecyclerView.Adapter<FlowAdapter.ViewHolder<B>>() {
 
-    private var newLine:CoroutineDispatcher? = null
-    private inline val scope  get() =  getScope()
-    private val asyncListDiffer:AsyncListDiffer<T> = AsyncListDiffer(this, object : DiffUtil.ItemCallback<T> () {
-        override fun areItemsTheSame(oldItem : T, newItem : T) : Boolean=areItemTheSame(oldItem,newItem)
-        override fun areContentsTheSame(oldItem : T, newItem : T) : Boolean = areContentTheSame(oldItem,newItem)
-    })
+    private var count:Int = 0
+    override fun getItemCount() : Int = count
+    private val buffer:ArrayList<T> = ArrayList()
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    private fun onUsing() {
-        Log.i(TAG, "onUsing: called")
-        newLine = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
-        asyncListDiffer.submitList(mutableListOf())
-        scope.launch(newLine!!) {
-            flow.collect {
-                asyncListDiffer.currentList.add(it)
+    init {
+        scope.launch(Main) {
+            flow.
+            filter { filter(it) }.
+            collect {
+                buffer.add(0,it)
+                notifyItemChanged(0)
+                count++
             }
         }
     }
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private fun onClean() {
-        Log.i(TAG, "onClean: $itemCount")
-        newLine = null
-    }
 
-    abstract class ViewHolder<T,B:ViewDataBinding>(val binding:B):RecyclerView.ViewHolder(binding.root) {
-        abstract fun bind(item:T)
+    class ViewHolder <B:ViewDataBinding> (val binding : B):RecyclerView.ViewHolder(binding.root)
+    override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : ViewHolder<B> =
+        ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context),layout(),parent,false))
+    override fun onBindViewHolder(holder : ViewHolder<B>, position : Int) {
+        scope.launch (Main){
+            holder.binding.onBind(buffer[position])
+        }
     }
-
-    override fun onBindViewHolder(holder : VH, position : Int) {
-        scope.launch(Main) { holder.bind(asyncListDiffer.currentList[position]) }
-    }
-
-    override fun getItemCount() : Int = asyncListDiffer.currentList.size
 }

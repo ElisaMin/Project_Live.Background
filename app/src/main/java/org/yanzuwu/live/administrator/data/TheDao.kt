@@ -28,20 +28,7 @@ import kotlin.random.Random
 class TheDao : LifecycleObserver{
 
 
-    val dao get() =  _dao!!
-    private var _dao: CoroutineDispatcher? =null
 
-
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun init() {
-        _dao = Executor {  }.asCoroutineDispatcher()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun clean() {
-        _dao = null
-    }
 
     enum class UserType {
         /**
