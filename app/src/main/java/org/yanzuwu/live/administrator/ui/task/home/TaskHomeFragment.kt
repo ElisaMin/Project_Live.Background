@@ -7,21 +7,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.yanzuwu.live.administrator.Main.Companion.TAG
-import org.yanzuwu.live.administrator.Main.Companion.mainActivity
 import org.yanzuwu.live.administrator.R
-import org.yanzuwu.live.administrator.data.TheDao
 import org.yanzuwu.live.administrator.databinding.TaskHomeFragmentBinding
-import javax.inject.Inject
+import org.yanzuwu.live.administrator.repositories.task.TaskRepository.getTaskByID
+
 
 @AndroidEntryPoint
 class TaskHomeFragment : Fragment(R.layout.task_home_fragment) {
 
 
-    @Inject lateinit var dao : TheDao
     private val viewModel:TaskHomeViewModel by viewModels()
     private val binding  by lazy {TaskHomeFragmentBinding.bind(requireView()).also {
         it.lifecycleOwner = this
@@ -33,7 +28,7 @@ class TaskHomeFragment : Fragment(R.layout.task_home_fragment) {
         super.onViewCreated(view, savedInstanceState)
         binding
         lifecycleScope.launch {
-            dao.getTaskByID("")
+            getTaskByID("")
         }
 
     }

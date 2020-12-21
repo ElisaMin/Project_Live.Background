@@ -25,19 +25,21 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar_JustHome"
             android:layout_height="192dp"
-            android:layout_width="match_parent">
-
+            android:layout_width="match_parent"
+            style="@style/Theme.梨屋后台.Toolbar">
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_JustHome_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+                app:contentScrim="?defaultBackgroundColor"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap"
+                style="@style/Theme.梨屋后台.Toolbar"
                 app:toolbarId="@+id/toolbar__JustHome">
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar__JustHome"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    style="@style/Theme.梨屋后台.Toolbar"
                     app:title="@{viewModel.title}" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
