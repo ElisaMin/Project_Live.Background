@@ -1,4 +1,4 @@
-package org.yanzuwu.live.administrator.data.beans
+package org.yanzuwu.live.administrator.utils.dataclassess
 
 import java.util.*
 
@@ -25,13 +25,13 @@ data class Task (
         val processorName:String="系统默认",
 
         /** 任务类型 */
-        val type:TaskType=TaskType.PlumbingRepair,
+        val type: TaskType = TaskType.PlumbingRepair,
 
         /** 房间编号 */
         val roomID:Int?=903,
 
         /** 任务结果 */
-        var result:Result = Result.NotDoneYet(),
+        var result: Result = Result.NotDoneYet(),
 
         /** 是否完成 */
         var isDone:Boolean = false

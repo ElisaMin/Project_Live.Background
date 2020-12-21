@@ -1,4 +1,4 @@
-package org.yanzuwu.live.administrator.data.beans
+package org.yanzuwu.live.administrator.utils.dataclassess
 
 /**
  * Result 结果表单
@@ -16,7 +16,7 @@ sealed class Result (
      *
      * @constructor Create a result
      */
-    class NotDoneYet():Result("NotDone",false)
+    class NotDoneYet(): Result("NotDone",false)
 
     /**
      * Fix devices task result 修理设备返回表单

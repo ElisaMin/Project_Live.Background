@@ -26,20 +26,20 @@
             android:id="@+id/appbar_JustHome"
             android:layout_height="192dp"
             android:layout_width="match_parent"
-            style="@style/Theme.梨屋后台.Toolbar">
+            style="@style/Theme.live.administrator.toolbar">
+
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_JustHome_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:contentScrim="?defaultBackgroundColor"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap"
-                style="@style/Theme.梨屋后台.Toolbar"
+                style="@style/Theme.live.administrator.toolbar"
                 app:toolbarId="@+id/toolbar__JustHome">
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar__JustHome"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    style="@style/Theme.梨屋后台.Toolbar"
+                    style="@style/Theme.live.administrator.toolbar"
                     app:title="@{viewModel.title}" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>

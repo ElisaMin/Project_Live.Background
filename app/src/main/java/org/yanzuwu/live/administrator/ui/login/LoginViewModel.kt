@@ -7,12 +7,14 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import org.yanzuwu.live.administrator.Main.Companion.TAG
+import org.yanzuwu.live.administrator.Main.Companion.mainActivity
 import org.yanzuwu.live.administrator.R
-import org.yanzuwu.live.administrator.dataclasses.UserType
-import org.yanzuwu.live.administrator.repositories.MainRepository.checkPhoneOnLogged
-import org.yanzuwu.live.administrator.repositories.MainRepository.checkVerificationCode
-import org.yanzuwu.live.administrator.repositories.MainRepository.getUserNameByID
+import org.yanzuwu.live.administrator.repositories.UserRepository.checkPhoneOnLogged
+import org.yanzuwu.live.administrator.repositories.UserRepository.checkVerificationCode
+import org.yanzuwu.live.administrator.repositories.UserRepository.getUserNameByID
+import org.yanzuwu.live.administrator.utils.dataclassess.UserType
 
 class LoginViewModel : ViewModel() {
     /**
@@ -80,7 +82,6 @@ class LoginViewModel : ViewModel() {
         object SendingMessage : Status()
         object WrongVerifyCode : Status()
         object JumpingToHome : Status()
-        object Null:Status()
     }
 
     /**
@@ -160,14 +161,10 @@ class LoginViewModel : ViewModel() {
         _isShowingProgressBar.value = true
         if (!isDealWithSendVerifyCode) checkingLength {
             viewModelScope.launch(Main) {
-                onNextStep( async(IO){
-                    delay(500)
-                    checkPhoneOnLogged(input.value)
-                })
+                onNextStep(async(IO){ delay(500);checkPhoneOnLogged(input.value) })
             }
-        }else {//发送验证码
+        } else {//发送验证码
             _status.value = Status.SendingMessage
-            _status.value = Status.Null
             _username.value = "验证码已发送，请查看。"
             _isShowingProgressBar.value = false
         }

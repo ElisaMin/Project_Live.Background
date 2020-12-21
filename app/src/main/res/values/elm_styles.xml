@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.live.administrator.toolbar" parent="Theme.live.administrator">
+        <!-- text colors-->
+        <item name="android:textColor">?primaryTextColor</item>
+        <item name="titleTextColor">?primaryTextColor</item>
+        <!-- background colors-->
+        <item name="android:background">?defaultBackgroundColor</item>
+        <item name="contentScrim">?defaultBackgroundColor</item>
+<!--        <item name="android:backgroundColor">?defaultBackgroundColor</item>-->
+    </style>
+</resources>

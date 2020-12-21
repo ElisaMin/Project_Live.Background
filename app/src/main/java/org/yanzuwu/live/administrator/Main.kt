@@ -12,9 +12,10 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.yanzuwu.live.administrator.dataclasses.UserType
-import org.yanzuwu.live.administrator.repositories.MainRepository.code
+import org.yanzuwu.live.administrator.repositories.UserRepository.code
+import org.yanzuwu.live.administrator.utils.dataclassess.UserType
 import org.yanzuwu.live.administrator.utils.dialog
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class Main : AppCompatActivity() {
