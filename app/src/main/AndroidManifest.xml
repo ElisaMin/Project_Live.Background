@@ -4,7 +4,7 @@
     package="org.yanzuwu.live.administrator">
 
     <application
-        android:name=".repositories.EmptyApplication"
+        android:name="Application"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

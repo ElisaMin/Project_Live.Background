@@ -7,12 +7,12 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import org.yanzuwu.live.administrator.Main.Companion.TAG
-import org.yanzuwu.live.administrator.Main.Companion.mainActivity
 import org.yanzuwu.live.administrator.R
-import org.yanzuwu.live.administrator.data.TheDao
-import org.yanzuwu.live.administrator.repositories.Repository.dao
+import org.yanzuwu.live.administrator.dataclasses.UserType
+import org.yanzuwu.live.administrator.repositories.MainRepository.checkPhoneOnLogged
+import org.yanzuwu.live.administrator.repositories.MainRepository.checkVerificationCode
+import org.yanzuwu.live.administrator.repositories.MainRepository.getUserNameByID
 
 class LoginViewModel : ViewModel() {
     /**
@@ -80,6 +80,7 @@ class LoginViewModel : ViewModel() {
         object SendingMessage : Status()
         object WrongVerifyCode : Status()
         object JumpingToHome : Status()
+        object Null:Status()
     }
 
     /**
@@ -92,13 +93,13 @@ class LoginViewModel : ViewModel() {
     private var isDealWithSendVerifyCode = false
 
     var phone: String? = null
-    private lateinit var userType: TheDao.UserType
+    private lateinit var userType: UserType
 
     private var realUsername:String? = null
     private suspend fun getRealUsername():String? {
         return if (realUsername==null)
             withContext(IO) {
-                dao.getUserNameByID(phone!!)
+                getUserNameByID(phone!!)
             }
         else realUsername
     }
@@ -107,7 +108,7 @@ class LoginViewModel : ViewModel() {
         Observer <String> { checkingLength {
             viewModelScope.launch {
                 //正确时结束声明周期
-                if(dao.checkVerificationCode(it)) launch(Main) {
+                if(checkVerificationCode(it)) launch(Main) {
                     _status.value = Status.JumpingToHome
                     _isVisible.value = false
                     onCleared()
@@ -152,19 +153,25 @@ class LoginViewModel : ViewModel() {
      * On click
      * 当点击时判断按钮此时需要处理事件为下一步还是重新发送验证码
      */
-    fun onClick() { checkingLength {
+    fun onClick() {
         //显示等待
         viewModelScope.launch { delay(500)}
         _username.value = "等待中"
         _isShowingProgressBar.value = true
-        if (!isDealWithSendVerifyCode) viewModelScope.launch(Main) {
-            onNextStep(async(IO){ delay(500);dao.checkPhoneOnLogged(input.value) })
+        if (!isDealWithSendVerifyCode) checkingLength {
+            viewModelScope.launch(Main) {
+                onNextStep( async(IO){
+                    delay(500)
+                    checkPhoneOnLogged(input.value)
+                })
+            }
         }else {//发送验证码
             _status.value = Status.SendingMessage
+            _status.value = Status.Null
             _username.value = "验证码已发送，请查看。"
             _isShowingProgressBar.value = false
         }
-    } }
+    }
 
 
     /**
@@ -172,12 +179,12 @@ class LoginViewModel : ViewModel() {
      * 点击按钮正确时执行
      * @param task 用户类型
      */
-    private suspend fun onNextStep(task:Deferred<TheDao.UserType>) {
+    private suspend fun onNextStep(task:Deferred<UserType>) {
         //储存结果
         phone = input.value
         userType =  task.await()
         //判断用户是否存在
-        if (userType == TheDao.UserType.NOT_ARROW) {
+        if (userType == UserType.NOT_ARROW) {
             //不存在 结束
             _username.value = "该用户不存在！！"
             _isNotFailed.value = false

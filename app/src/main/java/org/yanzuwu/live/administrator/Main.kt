@@ -2,42 +2,28 @@ package org.yanzuwu.live.administrator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.activity.viewModels
-import androidx.annotation.DrawableRes
-import androidx.annotation.MainThread
 import androidx.core.content.edit
-import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
-import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import org.yanzuwu.live.administrator.Main.Companion.mainActivity
-import org.yanzuwu.live.administrator.data.SharedViewModel
-import org.yanzuwu.live.administrator.data.TheDao
+import org.yanzuwu.live.administrator.dataclasses.UserType
+import org.yanzuwu.live.administrator.repositories.MainRepository.code
 import org.yanzuwu.live.administrator.utils.dialog
-import java.util.concurrent.Executors
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class Main : AppCompatActivity() {
     companion object {
         const val TAG = "Main"
         val Fragment.mainActivity:Main get() = requireActivity() as Main
-        val Fragment.sharedViewModel:SharedViewModel get() = mainActivity.sharedViewModel
+        val Fragment.sharedViewModel: SharedViewModel get() = mainActivity.sharedViewModel
         const val KEY_PHONE = "key1"
     }
-    @Inject lateinit var dao:TheDao
     val sharedViewModel by viewModels<SharedViewModel>()
     private val defaultPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
@@ -49,7 +35,7 @@ class Main : AppCompatActivity() {
      */
     suspend fun checkPhone(phone:String?=defaultPreferences.getString(KEY_PHONE,null)):Boolean {
         sharedViewModel.phone = phone
-        return withContext(IO){sharedViewModel.type.value != TheDao.UserType.NOT_ARROW}
+        return withContext(IO){sharedViewModel.type.value != UserType.NOT_ARROW}
     }
     fun savePhone(phone: String?) = lifecycleScope.launch(IO) {
         defaultPreferences.edit(commit = true) {
@@ -65,7 +51,7 @@ class Main : AppCompatActivity() {
         lifecycleScope.launch(Main) {
             dialog(
                     title = "验证码",
-                    message = TheDao.code.toString(),
+                    message = code.toString(),
                     isShowUp = true
             )
         }
