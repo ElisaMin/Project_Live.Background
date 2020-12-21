@@ -4,13 +4,13 @@
     package="org.yanzuwu.live.administrator">
 
     <application
-        android:name=".repositories.EmptyApplication"
+        android:name=".Application"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.梨屋后台"
+        android:theme="@style/Theme.live.administrator"
         tools:ignore="AllowBackup">
         <activity android:name=".Main">
             <intent-filter>
