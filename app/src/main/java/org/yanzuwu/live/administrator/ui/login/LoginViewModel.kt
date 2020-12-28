@@ -2,6 +2,8 @@ package org.yanzuwu.live.administrator.ui.login
 
 
 import android.util.Log
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
@@ -11,12 +13,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import org.yanzuwu.live.administrator.Main.Companion.TAG
 import org.yanzuwu.live.administrator.Main.Companion.mainActivity
 import org.yanzuwu.live.administrator.R
-import org.yanzuwu.live.administrator.repositories.UserRepository.checkPhoneOnLogged
-import org.yanzuwu.live.administrator.repositories.UserRepository.checkVerificationCode
-import org.yanzuwu.live.administrator.repositories.UserRepository.getUserNameByID
+import org.yanzuwu.live.administrator.repositories.TaskRepository
+import org.yanzuwu.live.administrator.repositories.UserRepository
 import org.yanzuwu.live.administrator.utils.dataclassess.UserType
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+
+class LoginViewModel @ViewModelInject constructor(
+    private val repository: UserRepository,
+) : ViewModel() {
     /**
      * username （其实是提示文字
      */
@@ -100,7 +105,7 @@ class LoginViewModel : ViewModel() {
     private suspend fun getRealUsername():String? {
         return if (realUsername==null)
             withContext(IO) {
-                getUserNameByID(phone!!)
+                repository.getUserNameByID(phone!!)
             }
         else realUsername
     }
@@ -109,7 +114,7 @@ class LoginViewModel : ViewModel() {
         Observer <String> { checkingLength {
             viewModelScope.launch {
                 //正确时结束声明周期
-                if(checkVerificationCode(it)) launch(Main) {
+                if(repository.checkVerificationCode(it)) launch(Main) {
                     _status.value = Status.JumpingToHome
                     _isVisible.value = false
                     onCleared()
@@ -161,7 +166,7 @@ class LoginViewModel : ViewModel() {
         _isShowingProgressBar.value = true
         if (!isDealWithSendVerifyCode) checkingLength {
             viewModelScope.launch(Main) {
-                onNextStep(async(IO){ delay(500);checkPhoneOnLogged(input.value) })
+                onNextStep(async(IO){ delay(500);repository.checkPhoneOnLogged(input.value) })
             }
         } else {//发送验证码
             _status.value = Status.SendingMessage

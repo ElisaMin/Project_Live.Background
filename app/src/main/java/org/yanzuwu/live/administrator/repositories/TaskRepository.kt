@@ -1,17 +1,21 @@
 package org.yanzuwu.live.administrator.repositories
 
+import android.content.Context
 import android.util.Log
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.yanzuwu.live.administrator.Main
 import org.yanzuwu.live.administrator.utils.dataclassess.Task
+import javax.inject.Inject
 import kotlin.random.Random
 
 /**
  * Task repository
  * 用于处理任务的仓库
  */
-object TaskRepository {
+class TaskRepository (
+    var context: Context
+) {
     val tasks by lazy {
         MutableStateFlow(Task())
     }

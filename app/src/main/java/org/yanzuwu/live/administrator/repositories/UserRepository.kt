@@ -1,7 +1,9 @@
 package org.yanzuwu.live.administrator.repositories
 
 
+import android.content.Context
 import org.yanzuwu.live.administrator.utils.dataclassess.UserType
+import javax.inject.Inject
 import kotlin.random.Random
 
 
@@ -10,7 +12,9 @@ import kotlin.random.Random
  * 用于处理用户信息的仓库
  * 包括登入等
  */
-object UserRepository {
+class UserRepository (
+    var context:Context
+) {
     /**
      * 检查是否为员工
      * @param phone 手机号码

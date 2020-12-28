@@ -14,7 +14,6 @@ import org.yanzuwu.live.administrator.Main.Companion.TAG
 import org.yanzuwu.live.administrator.Main.Companion.mainActivity
 import org.yanzuwu.live.administrator.R
 import org.yanzuwu.live.administrator.databinding.TaskHomeFragmentBinding
-import org.yanzuwu.live.administrator.repositories.TaskRepository.getTaskByID
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,8 +31,9 @@ class TaskHomeFragment : Fragment(R.layout.task_home_fragment) {
     override fun onViewCreated(view : View, savedInstanceState : Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding
+        viewModel.start()
         lifecycleScope.launch {
-            getTaskByID("")
+
         }
 
     }

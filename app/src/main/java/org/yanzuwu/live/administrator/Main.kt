@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.yanzuwu.live.administrator.repositories.UserRepository.code
+import org.yanzuwu.live.administrator.repositories.UserRepository
 import org.yanzuwu.live.administrator.utils.dataclassess.UserType
 import org.yanzuwu.live.administrator.utils.dialog
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class Main : AppCompatActivity() {
     }
     val sharedViewModel by viewModels<SharedViewModel>()
     private val defaultPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
-
+    @Inject lateinit var repository: UserRepository
     /**
      * Check phone
      *
@@ -52,7 +52,7 @@ class Main : AppCompatActivity() {
         lifecycleScope.launch(Main) {
             dialog(
                     title = "验证码",
-                    message = code.toString(),
+                    message = repository.code.toString(),
                     isShowUp = true
             )
         }
