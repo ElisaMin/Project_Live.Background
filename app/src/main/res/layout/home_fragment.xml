@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             app:defaultNavHost="true"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            app:navGraph="@navigation/task_sub_nav" />
+            app:navGraph="@navigation/nav_homes" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar_JustHome"
@@ -40,6 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     style="@style/Theme.live.administrator.toolbar"
+                    tools:title="欢迎回来"
                     app:title="@{viewModel.title}" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>

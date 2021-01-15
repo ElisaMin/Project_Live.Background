@@ -10,18 +10,18 @@
         android:name="org.yanzuwu.live.administrator.ui.login.LoginFragment"
         android:label="login_fragment"
         tools:layout="@layout/login_fragment" >
+
+
         <action
             android:id="@+id/launchHome"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_main"/>
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="org.yanzuwu.live.administrator.ui.homes.HomeFragment"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment" >
-        <action
-            android:id="@+id/action_homeFragment_to_task_sub_nav"
-            app:destination="@id/task_sub_nav" />
-    </fragment>
-    <include app:graph="@navigation/task_sub_nav" />
+        tools:layout="@layout/home_fragment" />
 </navigation>

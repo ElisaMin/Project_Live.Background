@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/task_sub_nav"
+    app:startDestination="@id/taskHomeFragment">
+
+    <fragment
+        android:id="@+id/taskHomeFragment"
+        android:name="org.yanzuwu.live.administrator.ui.task.home.TaskHomeFragment"
+        android:label="task_home_fragment"
+        tools:layout="@layout/task_home_fragment" >
+        <action
+            android:id="@+id/task_submit_action"
+            app:destination="@id/taskSubmitFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/taskSubmitFragment"
+        tools:layout="@layout/task_submit_fragment"
+        android:name="org.yanzuwu.live.administrator.ui.task.submit.TaskSubmitFragment"
+        android:label="TaskSubmitFragment" >
+        <argument android:name="task"
+            app:argType="org.yanzuwu.live.administrator.models.Task" />
+    </dialog>
+</navigation>

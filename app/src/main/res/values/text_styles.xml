@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="text">
+    </style>
+    <style name="text.h3" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">?primaryTextColor</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="text.h1" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">?primaryTextColor</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+    <style name="text.normal" parent="TextAppearance.AppCompat">
+
+    </style>
+</resources>

@@ -1,4 +1,4 @@
-package org.yanzuwu.live.administrator.utils.dataclassess
+package org.yanzuwu.live.administrator.models
 
 /**
  * User type 用户类型

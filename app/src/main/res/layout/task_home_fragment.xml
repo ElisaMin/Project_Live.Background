@@ -18,6 +18,7 @@
             android:id="@+id/task_list_task_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/task_item" />
     </FrameLayout>
 </layout>

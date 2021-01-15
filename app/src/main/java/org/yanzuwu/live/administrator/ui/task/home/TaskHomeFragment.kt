@@ -1,20 +1,15 @@
 package org.yanzuwu.live.administrator.ui.task.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.*
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.yanzuwu.live.administrator.Main.Companion.TAG
-import org.yanzuwu.live.administrator.Main.Companion.mainActivity
 import org.yanzuwu.live.administrator.R
 import org.yanzuwu.live.administrator.databinding.TaskHomeFragmentBinding
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TaskHomeFragment : Fragment(R.layout.task_home_fragment) {
@@ -31,11 +26,10 @@ class TaskHomeFragment : Fragment(R.layout.task_home_fragment) {
     override fun onViewCreated(view : View, savedInstanceState : Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding
-        viewModel.start()
+        viewModel.start(findNavController())
         lifecycleScope.launch {
 
         }
-
     }
 
 

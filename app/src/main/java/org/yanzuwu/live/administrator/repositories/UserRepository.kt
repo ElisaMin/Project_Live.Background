@@ -2,8 +2,7 @@ package org.yanzuwu.live.administrator.repositories
 
 
 import android.content.Context
-import org.yanzuwu.live.administrator.utils.dataclassess.UserType
-import javax.inject.Inject
+import org.yanzuwu.live.administrator.models.UserType
 import kotlin.random.Random
 
 

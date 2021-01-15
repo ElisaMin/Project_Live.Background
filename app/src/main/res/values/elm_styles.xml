@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!--    ToolBar的主题 白色-->
     <style name="Theme.live.administrator.toolbar" parent="Theme.live.administrator">
         <!-- text colors-->
         <item name="android:textColor">?primaryTextColor</item>

@@ -1,16 +1,13 @@
 package org.yanzuwu.live.administrator
 
-import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.yanzuwu.live.administrator.models.UserType
 import org.yanzuwu.live.administrator.repositories.UserRepository
-import org.yanzuwu.live.administrator.utils.dataclassess.UserType
-import javax.inject.Inject
 
 
 class SharedViewModel @ViewModelInject constructor(

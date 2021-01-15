@@ -1,10 +1,8 @@
-package org.yanzuwu.live.administrator.ui.bindingadapters
+package org.yanzuwu.live.administrator.utils.bindingadapters
 
 import android.view.View
 import androidx.annotation.DrawableRes
-import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 
 object BindingAdapters {

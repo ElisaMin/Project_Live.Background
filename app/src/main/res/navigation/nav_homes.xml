@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_homes"
+    app:startDestination="@id/placeholder">
+
+    <fragment
+        android:id="@+id/placeholder"
+        android:name="org.yanzuwu.live.administrator.ui.homes.EmptyFragmentForNavigating">
+        <action
+            android:id="@+id/toSubNavTask"
+            app:destination="@id/task_sub_nav" />
+    </fragment>
+    <include app:graph="@navigation/nav_sub_task" />
+</navigation>

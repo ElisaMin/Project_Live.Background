@@ -1,8 +1,9 @@
 package org.yanzuwu.live.administrator
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -12,8 +13,8 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.yanzuwu.live.administrator.models.UserType
 import org.yanzuwu.live.administrator.repositories.UserRepository
-import org.yanzuwu.live.administrator.utils.dataclassess.UserType
 import org.yanzuwu.live.administrator.utils.dialog
 import javax.inject.Inject
 
@@ -60,5 +61,10 @@ class Main : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG, "onDestroy: activity")
     }
 }

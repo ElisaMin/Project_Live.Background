@@ -2,21 +2,16 @@ package org.yanzuwu.live.administrator.ui.login
 
 
 import android.util.Log
-import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import org.yanzuwu.live.administrator.Main.Companion.TAG
-import org.yanzuwu.live.administrator.Main.Companion.mainActivity
 import org.yanzuwu.live.administrator.R
-import org.yanzuwu.live.administrator.repositories.TaskRepository
+import org.yanzuwu.live.administrator.models.UserType
 import org.yanzuwu.live.administrator.repositories.UserRepository
-import org.yanzuwu.live.administrator.utils.dataclassess.UserType
-import javax.inject.Inject
 
 
 class LoginViewModel @ViewModelInject constructor(
