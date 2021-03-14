@@ -15,13 +15,15 @@ import kotlin.random.Random
  * 用于处理任务的仓库
  */
 class TaskRepository (
-        var context: Context
+    var context: Context
 ) {
+    val isTaskSender = true
     val tasks by lazy {
         MutableStateFlow(Task())
     }
     private var lastTaskTimeThePoint:Long= 0
     private var taskPointForID= 0
+
 
     /**
      * 通过ID获取id
@@ -31,10 +33,22 @@ class TaskRepository (
             delay(300* Random.nextInt(10).toLong())
             Log.i(Main.TAG, "getTaskByID: called and $it")
             tasks.emit(Task(
-                    id=taskPointForID++,
+                    id=taskPointForID,roomID = 900+taskPointForID++
             ).also { lastTaskTimeThePoint = it.generateTime })
         }
     }
+
+//    val dataSource by lazy {
+//        intKeyPagingSource {
+//            try {
+//
+//                tasks
+//            } catch (e:Exception) {
+//
+//            }
+//            TODO()
+//        }
+//    }
 
 
 

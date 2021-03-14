@@ -11,14 +11,77 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.task.home.TaskHomeFragment">
+        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/task_list_task_home"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/task_item" />
+            tools:context=".ui.task.home.TaskHomeFragment">
+            <com.google.android.material.tabs.TabLayout
+                isShowing="@{viewModel.isTaskSender}"
+                android:id="@+id/task_parent_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/task_tab_task"
+                    android:text="完成任务"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/task_tab_sending"
+                    android:text="派发任务"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.tabs.TabLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/task_sub_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0">
+
+                <com.google.android.material.tabs.TabItem
+
+                    android:id="@+id/task_seeAllTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="全部" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/task_filter_waiting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="未完成" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/task_filter_done"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="已完成" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_weight="2"
+                android:adapter="@{viewModel.adapter}"
+                android:id="@+id/task_list_task_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/task_item" />
+        </LinearLayout>
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/task_btn_sending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            isShowing="@{!viewModel.currentPageIsShowTask}"
+
+            android:text="send"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal|bottom"
+            app:icon="@drawable/ic_twotone_send_24"
+            android:focusable="true" />
     </FrameLayout>
 </layout>

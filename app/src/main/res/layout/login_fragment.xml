@@ -30,7 +30,7 @@
             isShowing="@{viewModel.isVisible}"
             android:enabled="@{!viewModel.isShowingProgressBar}"
             android:id="@+id/username_login_text"
-            android:text="@{viewModel.username}"
+            android:text="@{viewModel.title}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -58,32 +58,32 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_login_lyt"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             isShowing="@{viewModel.isVisible&amp;&amp;viewModel.isNotFailed}"
-            android:enabled="@{!viewModel.isShowingProgressBar}"
-            android:hint="@{viewModel.hint}"
-            app:mutableEndIconDrawable="@{viewModel.endIconDrawable}"
-            app:onEndIconClicked="@{()->viewModel.onClick()}"
-            app:helperText="@{viewModel.noticeText}"
-            app:counterMaxLength="@{viewModel.maxInputCount}"
-            app:counterEnabled="true"
-            app:endIconCheckable="true"
-            app:endIconMode="custom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
+            android:enabled="@{!viewModel.isShowingProgressBar}"
+            android:hint="@{viewModel.hint}"
+            app:counterEnabled="true"
+            app:counterMaxLength="@{viewModel.maxInputCount}"
+            app:endIconCheckable="true"
+            app:endIconMode="custom"
+            app:helperText="@{viewModel.noticeText}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/username_login_text"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:mutableEndIconDrawable="@{viewModel.endIconDrawable}"
+            app:onEndIconClicked="@{()->viewModel.onClick()}">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:text="@={viewModel.input}"
-                android:inputType="phone"
                 android:id="@+id/input_login_edt"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:text="@={viewModel.input}" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

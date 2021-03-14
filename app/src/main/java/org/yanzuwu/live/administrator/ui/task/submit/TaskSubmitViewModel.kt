@@ -1,13 +1,13 @@
 package org.yanzuwu.live.administrator.ui.task.submit
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.yanzuwu.live.administrator.models.Task
 import org.yanzuwu.live.administrator.repositories.TaskRepository
+import javax.inject.Inject
 
-
-
-class TaskSubmitViewModel @ViewModelInject constructor (
+@HiltViewModel
+class TaskSubmitViewModel @Inject constructor (
     private val repository: TaskRepository,
 ) : ViewModel() {
 

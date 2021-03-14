@@ -1,0 +1,3 @@
+[submodule "kotlinx-android"]
+	path = kotlinx-android
+	url = git@github.com:ElisaMin/androidx-ktx.git

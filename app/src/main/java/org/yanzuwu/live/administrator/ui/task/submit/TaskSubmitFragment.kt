@@ -22,6 +22,5 @@ class TaskSubmitFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         viewModel.task = (arguments?.get("task") as Task)//捕获Task 没有则炸开
-
     }
 }

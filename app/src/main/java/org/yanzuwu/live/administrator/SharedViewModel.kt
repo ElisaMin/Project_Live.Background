@@ -1,24 +1,30 @@
 package org.yanzuwu.live.administrator
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.shareIn
+import me.heizi.kotlinx.android.default
 import org.yanzuwu.live.administrator.models.UserType
 import org.yanzuwu.live.administrator.repositories.UserRepository
+import javax.inject.Inject
 
-
-class SharedViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SharedViewModel @Inject constructor(
     private val repository: UserRepository,
 ):ViewModel() {
-    var type = MutableStateFlow(UserType.NOT_ARROW)
+    val type get() = _type.shareIn(viewModelScope, SharingStarted.Eagerly)
     var phone:String? = null
         set(value) {
-            viewModelScope.launch(IO) {
-                type.emit(repository.checkPhoneOnLogged(value))
+            default {
+                _type.emit(repository.checkPhoneOnLogged(value))
             }
             field = value
         }
+    private val _type = MutableSharedFlow<UserType?>()
+    fun checkPreferencePhone(){
+        phone = repository.preferences.phone
+    }
 }

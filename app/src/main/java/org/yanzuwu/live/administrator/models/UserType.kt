@@ -5,6 +5,8 @@ package org.yanzuwu.live.administrator.models
  * 描述所有员工的类型
  */
 enum class UserType {
+    /** 准备状态 */
+    READY,
     /** Not_arrow 不允许 */
     NOT_ARROW,
     /** High level task worker 高级任务工作者 */

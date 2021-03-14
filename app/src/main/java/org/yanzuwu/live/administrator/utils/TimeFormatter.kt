@@ -7,5 +7,5 @@ object TimeFormatter {
     private val sdfMain by lazy {
         SimpleDateFormat("dd日HH:mm", Locale.CHINA)
     }
-    fun Long.toShortFormat() = sdfMain.format(Date(this))
+    fun Long.toShortFormat(): String = sdfMain.format(Date(this))
 }
