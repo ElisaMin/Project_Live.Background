@@ -146,7 +146,7 @@ class LoginViewModel @Inject constructor(
      * @param state
      */
     private fun whileStatusIsUpdated(state:Status) = viewModelScope.launch(IO) { when(state) {
-        Status.Initialized -> {
+        is Status.Initialized -> {
             updateUi(
                 title = "您好，请登入。",
                 hint = "手机号码。",
@@ -157,7 +157,7 @@ class LoginViewModel @Inject constructor(
                 isVisible = true,
             )
         }
-        Status.CheckPhone -> {
+        is Status.CheckPhone -> {
             updateUi(title = "正在检查是否为本公司员工",progressing =  true, )
             phone = input.value
             val userType = repository.checkPhoneOnLogged(phone)

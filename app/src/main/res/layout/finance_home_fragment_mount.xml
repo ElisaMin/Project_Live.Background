@@ -4,7 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="org.yanzuwu.live.administrator.ui.finance.home.FinanceHomeViewModel.SinglePeriodViewModel" />
+        <variable
+            name="adapterOverview"
+            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
+        <variable
+            name="adapterToDone"
+            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
     </data>
 
     <ScrollView
@@ -16,13 +24,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:context=".ui.finance.home.FinanceHomeFragment">
-            <TextView
+             <TextView
+                android:enabled="@{!viewModel.isLoading}"
+                android:text="@{viewModel.titleFirst}"
                 android:layout_marginBottom="@dimen/通用分隔大小"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/text.h1"
                 tools:text="12月总览" />
             <androidx.recyclerview.widget.RecyclerView
+                android:adapter="@{adapterOverview}"
+                android:enabled="@{!viewModel.isLoading}"
                 tools:itemCount="5"
                 android:layout_marginBottom="@dimen/通用分隔大小"
                 tools:listitem="@layout/finance_item_preview"
@@ -31,12 +43,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:enabled="@{!viewModel.isLoading}"
+                android:text="@{viewModel.titleSecond}"
                 android:layout_marginBottom="@dimen/通用分隔大小"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/text.h1"
                 tools:text="12月待处理" />
             <androidx.recyclerview.widget.RecyclerView
+                android:adapter="@{adapterToDone}"
+                android:enabled="@{!viewModel.isLoading}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="12"
                 tools:listitem="@layout/finance_item_pending_home"
