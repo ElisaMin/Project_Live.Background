@@ -16,10 +16,12 @@ class SharedViewModel @Inject constructor(
     private val repository: UserRepository,
 ):ViewModel() {
     val type get() = _type.shareIn(viewModelScope, SharingStarted.Eagerly)
+    var name = ""
     var phone:String? = null
         set(value) {
             default {
                 _type.emit(repository.checkPhoneOnLogged(value))
+                if (value!=null) name = repository.getUserNameByID(value)
             }
             field = value
         }

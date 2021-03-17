@@ -27,7 +27,6 @@ class Main : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
         sharedViewModel.checkPreferencePhone()
     }
     override fun onDestroy() {

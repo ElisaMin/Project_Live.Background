@@ -11,6 +11,10 @@
         <action
             android:id="@+id/toSubNavTask"
             app:destination="@id/task_sub_nav" />
+        <action
+            android:id="@+id/toSubNavMoneyManager"
+            app:destination="@id/nav_sub_mm" />
     </fragment>
     <include app:graph="@navigation/nav_sub_task" />
+    <include app:graph="@navigation/nav_sub_mm" />
 </navigation>

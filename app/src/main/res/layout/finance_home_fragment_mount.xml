@@ -15,7 +15,7 @@
             type="androidx.recyclerview.widget.RecyclerView.Adapter" />
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -33,6 +33,7 @@
                 android:textAppearance="@style/text.h1"
                 tools:text="12月总览" />
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_overviews_finance_month"
                 android:adapter="@{adapterOverview}"
                 android:enabled="@{!viewModel.isLoading}"
                 tools:itemCount="5"
@@ -50,14 +51,16 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/text.h1"
                 tools:text="12月待处理" />
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_toDone_finance_month"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:adapter="@{adapterToDone}"
                 android:enabled="@{!viewModel.isLoading}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="12"
-                tools:listitem="@layout/finance_item_pending_home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                tools:listitem="@layout/finance_item_pending_home" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

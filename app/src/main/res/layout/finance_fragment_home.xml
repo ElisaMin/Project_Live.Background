@@ -13,19 +13,21 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.google.android.material.tabs.TabLayout
-            android:visibility="gone"
-            android:id="@+id/finance_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
         <ProgressBar
-            android:visibility="@{viewModel.isLoading}"
+            isShowing="@{viewModel.isLoading}"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:indeterminate="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <com.google.android.material.tabs.TabLayout
+            app:tabMode="scrollable"
+            android:visibility="gone"
+            android:id="@+id/finance_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <androidx.viewpager2.widget.ViewPager2
+
             android:id="@+id/finance_pages"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

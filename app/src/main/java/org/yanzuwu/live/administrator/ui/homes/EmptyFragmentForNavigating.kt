@@ -8,6 +8,6 @@ import org.yanzuwu.live.administrator.R
 class EmptyFragmentForNavigating:Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findNavController().navigate(R.id.toSubNavTask)
+        findNavController().navigate(R.id.toSubNavMoneyManager)
     }
 }
