@@ -26,7 +26,7 @@ class UserRepository (
      */
     suspend fun checkPhoneOnLogged(phone:String?): UserType {
         delay(2000)
-        Log.i(TAG, "checkPhoneOnLogged: phone$phone")
+        Log.i(TAG, "checkPhoneOnLogged: phone:$phone")
         val type =  when(phone){
             null -> UserType.NOT_ARROW
             "111111111" -> UserType.MoneyManager

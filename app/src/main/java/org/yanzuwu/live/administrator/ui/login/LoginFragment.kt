@@ -11,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.flow.*
+import me.heizi.kotlinx.android.default
 import me.heizi.kotlinx.android.dialog
 import me.heizi.kotlinx.android.main
 import org.yanzuwu.live.administrator.Main.Companion.TAG
@@ -27,7 +28,10 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     private val viewModel: LoginViewModel by viewModels()
 
     private val collectState = lifecycleScope.launch(Default,CoroutineStart.LAZY) {
-        viewModel.state.collectLatest { status -> when (status) {
+        Log.i(TAG, "collectubg: ")
+        viewModel.state.collectLatest { status ->
+            Log.d(TAG, "collect: $status")
+        when (status) {
             is LoginViewModel.Status.SendingMessage, -> {
                 delay(500)
                 main {
@@ -44,18 +48,21 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     private val collectType = lifecycleScope.launch(Default,CoroutineStart.LAZY) {
             sharedViewModel.type.collect {
                 Log.i(TAG, "UserType: $it")
-                if (it!=null) if (it == UserType.NOT_ARROW ) {
-                    viewModel.start()
+                if (it!=null) if (it == UserType.NOT_ARROW ) default {
                     collectState.start()
+                    viewModel.start()
+                    Log.d(TAG, "collect: startd")
                 } else {
-                        collectState.cancelAndJoin()
-                        jumping()
-                    }
+                    Log.d(TAG, "colllect: cancel")
+                    collectState.cancelAndJoin()
+                    jumping()
+                }
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel
+        Log.d(TAG, "onCreate: called")
         collectType.start()
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

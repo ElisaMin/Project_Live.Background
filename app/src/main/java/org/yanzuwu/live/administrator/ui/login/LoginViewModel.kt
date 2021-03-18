@@ -10,6 +10,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*
+import me.heizi.kotlinx.android.default
+import me.heizi.kotlinx.android.main
 import me.heizi.kotlinx.android.set
 import org.yanzuwu.live.administrator.Main.Companion.TAG
 import org.yanzuwu.live.administrator.R
@@ -59,14 +61,15 @@ class LoginViewModel @Inject constructor(
     private var username:String? = null
 
 
-    fun start() {
+    suspend fun start() {
         startCollecting()
-        viewModelScope.launch() {
-            _status set Status.Initialized
-        }
+
+        _status set Status.Initialized
+
     }
-    private fun startCollecting() = viewModelScope.launch(Default) {
-        state.collectLatest {
+    private fun startCollecting() = default {
+        Log.d(TAG, "startCollecting: called")
+        _status.collect {
             Log.i(TAG, "start: changed")
             whileStatusIsUpdated(it)
         }
@@ -145,7 +148,11 @@ class LoginViewModel @Inject constructor(
      *
      * @param state
      */
-    private fun whileStatusIsUpdated(state:Status) = viewModelScope.launch(IO) { when(state) {
+    private fun whileStatusIsUpdated(state:Status) = viewModelScope.launch(IO) {
+    main {
+        Log.d(TAG, "whileStatusIsUpdated: $state")
+    }
+    when(state) {
         is Status.Initialized -> {
             updateUi(
                 title = "您好，请登入。",

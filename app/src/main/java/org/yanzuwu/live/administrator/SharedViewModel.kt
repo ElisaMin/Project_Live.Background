@@ -17,6 +17,7 @@ class SharedViewModel @Inject constructor(
 ):ViewModel() {
     val type get() = _type.shareIn(viewModelScope, SharingStarted.Eagerly)
     var name = ""
+
     var phone:String? = null
         set(value) {
             default {
