@@ -1,17 +1,17 @@
 package org.yanzuwu.live.administrator.ui.task.home
 
 import android.util.Log
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableList
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import me.heizi.kotlinx.android.default
 import org.yanzuwu.live.administrator.Main.Companion.TAG
-import org.yanzuwu.live.administrator.R
-import org.yanzuwu.live.administrator.databinding.TaskItemBinding
 import org.yanzuwu.live.administrator.models.Task
 import org.yanzuwu.live.administrator.repositories.TaskRepository
-import org.yanzuwu.live.administrator.utils.FlowAdapter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,57 +19,27 @@ class TaskHomeViewModel @Inject constructor(
     private val repository: TaskRepository
 ) : ViewModel() {
 
-    interface Service {
-        val onItemClick:(Task)->Unit
-        val sendingTask:(List<Task>)->Unit
-    }
-    private lateinit var service:Service
-
     val currentPageIsShowTask get() =   _currentPageIsShowTask.asStateFlow()
+    val list:ObservableList<Task> get()  = _list
     val isTaskSender get() = repository.isTaskSender
-    val adapter = FlowAdapter<Task?,TaskItemBinding>(
-        scope = viewModelScope,
-        onBind =
-        {task ->
-            this.task = task
-            root.setOnClickListener{
-                service.onItemClick(task!!)
-            }
-            taskItemCheckbox.setOnCheckedChangeListener { buttonView, _ ->
-                buttonView.isChecked = false
-                service.onItemClick(task!!)
-            }
+    private val _list = ObservableArrayList<Task>()
+    private val _currentPageIsShowTask = MutableStateFlow(false)
 
-        },
-        layout = {R.layout.task_item},
-        filter = lambda@{ return@lambda it?.id!=null}
-    )
-    private val _currentPageIsShowTask = MutableStateFlow(true)
-
-    fun start(service: Service) {
-        this.service = service
+    fun start() {
+        collectingTask()
         default {
-            repository.getTaskByID("")
-            currentPageIsShowTask.shareIn(viewModelScope, SharingStarted.Eagerly).collectLatest {
-                Log.i(TAG, "start: called")
-                adapter.submitFlow(repository.tasks)
-                if (!it) {
-
-                }
-            }
+            repository.getTaskByID("0000")
         }
     }
-    fun sendingMessage() {
-        adapter
+    fun collectingTask() = default {
+        repository.tasks.collect { _list.add(it) }
     }
-    fun filing(isDone:Boolean?) {
+    inline fun filing(isDone:Boolean?,callback:(MutableList<Task>)->Unit) {
         Log.i(TAG, "filing: $isDone")
-        when(isDone) {
-            null -> repository.tasks
-            else -> repository.tasks.filter { it.isDone == isDone }
-        } .let {
-            default { adapter.submitFlow(it) }
-        }
+    when(isDone) {
+        null -> list
+        else -> list.filter { it.isDone == isDone }
+    }.toMutableList().let(callback)
     }
 
 

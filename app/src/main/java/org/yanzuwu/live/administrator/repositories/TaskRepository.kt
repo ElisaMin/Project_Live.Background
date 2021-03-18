@@ -17,7 +17,7 @@ import kotlin.random.Random
 class TaskRepository (
     var context: Context
 ) {
-    val isTaskSender = true
+    val isTaskSender = false
     val tasks by lazy {
         MutableStateFlow(Task())
     }
@@ -38,17 +38,6 @@ class TaskRepository (
         }
     }
 
-//    val dataSource by lazy {
-//        intKeyPagingSource {
-//            try {
-//
-//                tasks
-//            } catch (e:Exception) {
-//
-//            }
-//            TODO()
-//        }
-//    }
 
 
 
